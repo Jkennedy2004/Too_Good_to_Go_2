@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Entrega } from './entities/entrega.entity';
 import { CreateEntregaDto } from './dto/create-entrega.dto';
 import { UpdateEntregaDto } from './dto/update-entrega.dto';
 
 @Injectable()
 export class EntregaService {
-  create(createEntregaDto: CreateEntregaDto) {
-    return 'This action adds a new entrega';
+  constructor(
+    @InjectRepository(Entrega)
+    private readonly entregaRepository: Repository<Entrega>,
+  ) {}
+
+  async create(createEntregaDto: CreateEntregaDto): Promise<Entrega> {
+    const entrega = this.entregaRepository.create({
+      ...createEntregaDto,
+      fechaEntrega: new Date(createEntregaDto.fechaEntrega),
+    });
+
+    return this.entregaRepository.save(entrega);
   }
 
-  findAll() {
-    return `This action returns all entrega`;
+  async findAll(): Promise<Entrega[]> {
+    return this.entregaRepository.find({
+      relations: ['repartidor', 'rutaEntrega', 'ofertaReducida'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} entrega`;
+  async findOne(id: number): Promise<Entrega> {
+    const entrega = await this.entregaRepository.findOne({
+      where: { id },
+      relations: ['repartidor', 'rutaEntrega', 'ofertaReducida'],
+    });
+
+    if (!entrega) {
+      throw new NotFoundException(`Entrega con id ${id} no encontrada`);
+    }
+
+    return entrega;
   }
 
-  update(id: number, updateEntregaDto: UpdateEntregaDto) {
-    return `This action updates a #${id} entrega`;
+  async update(id: number, updateData: UpdateEntregaDto): Promise<Entrega> {
+    const entrega = await this.entregaRepository.findOne({
+      where: { id },
+      relations: ['repartidor', 'rutaEntrega', 'ofertaReducida'],
+    });
+
+    if (!entrega) {
+      throw new NotFoundException(`Entrega con id ${id} no encontrada`);
+    }
+
+    Object.assign(entrega, {
+      ...updateData,
+      ...(updateData.fechaEntrega && {
+        fechaEntrega: new Date(updateData.fechaEntrega),
+      }),
+    });
+
+    return this.entregaRepository.save(entrega);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} entrega`;
+  async remove(id: number): Promise<void> {
+    const entrega = await this.entregaRepository.findOne({ where: { id } });
+
+    if (!entrega) {
+      throw new NotFoundException(`Entrega con id ${id} no encontrada`);
+    }
+
+    await this.entregaRepository.remove(entrega);
   }
 }
