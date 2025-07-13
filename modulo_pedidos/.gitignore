@@ -1,0 +1,38 @@
+# Entorno virtual
+venv/
+.env
+.env.*
+
+# Archivos de Python compilados y cachés
+_pycache_/
+*.py[cod]
+*.pyo
+
+# Archivos de logs
+*.log
+
+# Archivos de bases de datos locales (por ejemplo SQLite)
+*.sqlite3
+*.db
+
+# Configuración de IDEs
+.vscode/
+.idea/
+*.swp
+
+# Archivos de pruebas y cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Archivos generados por setuptools/distutils
+dist/
+build/
+*.egg-info/
+
+# Archivos de Uvicorn (como PID o auto-generados)
+*.pid
+
+# MacOS y otros
+.DS_Store
+Thumbs.db

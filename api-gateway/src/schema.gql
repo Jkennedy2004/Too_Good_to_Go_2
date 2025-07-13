@@ -1,0 +1,324 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateDetallePedidoInput {
+  cantidad: Int!
+  ofertaReducidaId: Int
+  precioUnitario: Float!
+  productoId: Int!
+  subtotal: Float!
+}
+
+input CreateEntregaInput {
+  fechaEntrega: String!
+  ofertaReducidaId: Int
+  repartidorId: Int
+  rutaEntregaId: Int
+}
+
+input CreateInventarioProductoInput {
+  activo: Boolean = true
+  cantidadActual: Int!
+  nombre: String!
+}
+
+input CreateOfertaReducidaInput {
+  activo: Boolean = true
+  cantidadDisponible: Int!
+  fechaHoraFinRecogida: String!
+  inventarioProductoId: Int!
+  nombre: String!
+  precioReducido: Float!
+}
+
+input CreatePedidoInput {
+  detalles: [CreateDetallePedidoInput!]!
+  estado: String = "pendiente"
+  restauranteId: Int!
+  total: Float = 0
+  usuarioId: Int!
+}
+
+input CreateProductoInput {
+  descripcion: String
+  nombre: String!
+  precioRegular: Float!
+  restauranteId: Int!
+}
+
+input CreateRepartidorInput {
+  email: String!
+  nombre: String!
+}
+
+input CreateRestauranteInput {
+  direccion: String!
+  email: String!
+  nombre: String!
+  telefono: String
+}
+
+input CreateRutaEntregaInput {
+  estado: EstadoRuta!
+  nombreRuta: String!
+  repartidorAsignadoId: Int
+}
+
+input CreateUsuarioInput {
+  direccion: String
+  email: String!
+  nombre: String!
+  password: String!
+  telefono: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type DetallePedido {
+  cantidad: Int!
+  id: ID!
+  ofertaReducidaId: Int
+  pedidoId: Int!
+  precioUnitario: Float!
+  producto: Producto
+  productoId: Int!
+  subtotal: Float!
+}
+
+type Entrega {
+  createdAt: String!
+  fechaEntrega: String!
+  id: ID!
+  ofertaReducida: OfertaReducida
+  repartidor: Repartidor
+  rutaEntrega: RutaEntrega
+  updatedAt: String!
+}
+
+"""Estado actual de la ruta de entrega"""
+enum EstadoRuta {
+  CANCELADA
+  COMPLETADA
+  EN_PROGRESO
+  PLANIFICADA
+}
+
+type InventarioProducto {
+  activo: Boolean!
+  cantidadActual: Int!
+  createdAt: String!
+  id: ID!
+  nombre: String!
+  ofertasReducidas: [OfertaReducida!]
+  updatedAt: String!
+}
+
+type Mutation {
+  createDetallePedido(input: CreateDetallePedidoInput!): DetallePedido!
+  createEntrega(input: CreateEntregaInput!): Entrega!
+  createInventarioProducto(input: CreateInventarioProductoInput!): InventarioProducto!
+  createOfertaReducida(input: CreateOfertaReducidaInput!): OfertaReducida!
+  createPedido(input: CreatePedidoInput!): Pedido!
+  createProducto(input: CreateProductoInput!): Producto!
+  createRepartidor(input: CreateRepartidorInput!): Repartidor!
+  createRestaurante(input: CreateRestauranteInput!): Restaurante!
+  createRutaEntrega(input: CreateRutaEntregaInput!): RutaEntrega!
+  createUsuario(input: CreateUsuarioInput!): Usuario!
+  deleteDetallePedido(id: ID!): Boolean!
+  deleteEntrega(id: ID!): Boolean!
+  deleteInventarioProducto(id: ID!): Boolean!
+  deleteOfertaReducida(id: ID!): Boolean!
+  deletePedido(id: ID!): Boolean!
+  deleteProducto(id: ID!): Boolean!
+  deleteRepartidor(id: ID!): Boolean!
+  deleteRestaurante(id: ID!): Boolean!
+  deleteRutaEntrega(id: ID!): Boolean!
+  deleteUsuario(id: ID!): Boolean!
+  updateDetallePedido(id: ID!, input: UpdateDetallePedidoInput!): DetallePedido!
+  updateEntrega(id: ID!, input: UpdateEntregaInput!): Entrega!
+  updateInventarioProducto(id: ID!, input: UpdateInventarioProductoInput!): InventarioProducto!
+  updateOfertaReducida(id: ID!, input: UpdateOfertaReducidaInput!): OfertaReducida!
+  updatePedido(id: ID!, input: UpdatePedidoInput!): Pedido!
+  updateProducto(id: ID!, input: UpdateProductoInput!): Producto!
+  updateRepartidor(id: ID!, input: UpdateRepartidorInput!): Repartidor!
+  updateRestaurante(id: ID!, input: UpdateRestauranteInput!): Restaurante!
+  updateRutaEntrega(id: ID!, input: UpdateRutaEntregaInput!): RutaEntrega!
+  updateUsuario(id: ID!, input: UpdateUsuarioInput!): Usuario!
+}
+
+type OfertaReducida {
+  activo: Boolean!
+  cantidadDisponible: Int!
+  createdAt: String!
+  entrega: Entrega
+  fechaHoraFinRecogida: String!
+  id: ID!
+  inventarioProducto: InventarioProducto!
+  inventarioProductoId: Int!
+  nombre: String!
+  precioReducido: Float!
+  updatedAt: String!
+}
+
+type Pedido {
+  createdAt: DateTime!
+  detallesPedido: [DetallePedido!]!
+  estado: String!
+  fechaCreacion: DateTime!
+  id: ID!
+  restaurante: Restaurante
+  restauranteId: Int!
+  total: Float!
+  updatedAt: DateTime!
+  usuario: Usuario
+  usuarioId: Int!
+}
+
+type Producto {
+  createdAt: DateTime!
+  descripcion: String
+  id: ID!
+  nombre: String!
+  precioRegular: Float!
+  restaurante: Restaurante
+  restauranteId: Int!
+  updatedAt: DateTime!
+}
+
+type Query {
+  detallePedido(id: ID!): DetallePedido!
+  detallesPedido: [DetallePedido!]!
+  entrega(id: ID!): Entrega!
+  entregas: [Entrega!]!
+  inventarioProducto(id: ID!): InventarioProducto!
+  inventarioProductos: [InventarioProducto!]!
+  ofertaReducida(id: ID!): OfertaReducida!
+  ofertasReducidas: [OfertaReducida!]!
+  pedido(id: ID!): Pedido!
+  pedidos: [Pedido!]!
+  producto(id: ID!): Producto!
+  productos: [Producto!]!
+  repartidor(id: ID!): Repartidor!
+  repartidores: [Repartidor!]!
+  restaurante(id: ID!): Restaurante!
+  restaurantes: [Restaurante!]!
+  rutaEntrega(id: ID!): RutaEntrega!
+  rutasEntrega: [RutaEntrega!]!
+  usuario(id: ID!): Usuario!
+  usuarios: [Usuario!]!
+}
+
+type Repartidor {
+  createdAt: String!
+  email: String!
+  entregas: [Entrega!]
+  id: ID!
+  nombre: String!
+  rutasEntrega: [RutaEntrega!]
+  updatedAt: String!
+}
+
+type Restaurante {
+  createdAt: DateTime!
+  direccion: String!
+  email: String!
+  id: ID!
+  nombre: String!
+  telefono: String
+  updatedAt: DateTime!
+}
+
+type RutaEntrega {
+  createdAt: String!
+  entregas: [Entrega!]
+  estado: EstadoRuta!
+  id: ID!
+  nombreRuta: String!
+  repartidorAsignado: Repartidor
+  updatedAt: String!
+}
+
+input UpdateDetallePedidoInput {
+  cantidad: Int
+  ofertaReducidaId: Int
+  precioUnitario: Float
+  productoId: Int
+  subtotal: Float
+}
+
+input UpdateEntregaInput {
+  fechaEntrega: String
+  ofertaReducidaId: Int
+  repartidorId: Int
+  rutaEntregaId: Int
+}
+
+input UpdateInventarioProductoInput {
+  activo: Boolean = true
+  cantidadActual: Int
+  nombre: String
+}
+
+input UpdateOfertaReducidaInput {
+  activo: Boolean = true
+  cantidadDisponible: Int
+  fechaHoraFinRecogida: String
+  inventarioProductoId: Int
+  nombre: String
+  precioReducido: Float
+}
+
+input UpdatePedidoInput {
+  detalles: [CreateDetallePedidoInput!]
+  estado: String
+  restauranteId: Int
+  total: Float
+  usuarioId: Int
+}
+
+input UpdateProductoInput {
+  descripcion: String
+  nombre: String
+  precioRegular: Float
+  restauranteId: Int
+}
+
+input UpdateRepartidorInput {
+  email: String
+  nombre: String
+}
+
+input UpdateRestauranteInput {
+  direccion: String
+  email: String
+  nombre: String
+  telefono: String
+}
+
+input UpdateRutaEntregaInput {
+  estado: EstadoRuta
+  nombreRuta: String
+  repartidorAsignadoId: Int
+}
+
+input UpdateUsuarioInput {
+  direccion: String
+  email: String
+  nombre: String
+  password: String
+  telefono: String
+}
+
+type Usuario {
+  createdAt: DateTime!
+  direccion: String
+  email: String!
+  id: ID!
+  nombre: String!
+  telefono: String
+  updatedAt: DateTime!
+}

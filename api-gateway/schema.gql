@@ -1,0 +1,26 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Pedido {
+  id: Int!
+  fecha_pedido: String!
+  usuario_id: Int!
+  restaurante_id: Int!
+}
+
+type Oferta {
+  id: Int!
+  descripcion: String!
+  precio_reducido: Float!
+  fecha_inicio: String!
+  fecha_fin: String!
+  restaurante_id: Int!
+}
+
+type Query {
+  pedidos: [Pedido!]!
+  pedido(id: Int!): Pedido!
+  ofertas: [Oferta!]!
+  oferta(id: Int!): Oferta!
+}
